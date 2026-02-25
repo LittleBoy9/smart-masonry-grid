@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>smart-masonry-grid Demo</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f0f0f;
+      color: #e0e0e0;
+      padding: 24px;
+    }
+    h1 { font-size: 28px; margin-bottom: 8px; color: #fff; }
+    h2 { font-size: 20px; margin: 32px 0 12px; color: #ccc; }
+    p.subtitle { color: #888; margin-bottom: 24px; font-size: 14px; }
+    .controls {
+      display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;
+    }
+    button {
+      background: #222; color: #e0e0e0; border: 1px solid #444;
+      padding: 8px 16px; border-radius: 6px; cursor: pointer;
+      font-size: 13px; transition: background 0.15s;
+    }
+    button:hover { background: #333; }
+    .stats {
+      background: #1a1a1a; border: 1px solid #333; border-radius: 8px;
+      padding: 12px 16px; margin-bottom: 16px; font-size: 13px;
+      font-family: monospace; color: #aaa;
+    }
+    .stats span { color: #4fc3f7; font-weight: bold; }
+    .grid-container {
+      width: 100%;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 8px;
+      background: #1a1a1a;
+    }
+    .card {
+      border-radius: 8px;
+      padding: 16px;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.85);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    hr { border: none; border-top: 1px solid #333; margin: 40px 0; }
+  </style>
+</head>
+<body>
+
+  <h1>smart-masonry-grid</h1>
+  <p class="subtitle">Zero-dependency, virtualized masonry grid layout &mdash; demo</p>
+
+  <!-- ==================== SECTION 1: Basic Grid ==================== -->
+  <h2>1. Basic Grid (auto columns, resize the browser)</h2>
+  <div id="basic-grid" class="grid-container"></div>
+
+  <hr>
+
+  <!-- ==================== SECTION 2: Dynamic Add/Remove ==================== -->
+  <h2>2. Dynamic Add / Remove</h2>
+  <div class="controls">
+    <button id="btn-append">Append 5 items</button>
+    <button id="btn-prepend">Prepend 3 items</button>
+    <button id="btn-remove">Remove first item</button>
+    <button id="btn-refresh">Refresh layout</button>
+  </div>
+  <div id="dynamic-grid" class="grid-container"></div>
+
+  <hr>
+
+  <!-- ==================== SECTION 3: Virtualized 10k ==================== -->
+  <h2>3. Virtualized (10,000 items)</h2>
+  <div id="virtual-stats" class="stats">
+    DOM nodes: <span id="dom-count">0</span> &nbsp;|&nbsp;
+    Scroll position: <span id="scroll-pos">0</span>px &nbsp;|&nbsp;
+    Visible range: <span id="vis-range">0-0</span>
+  </div>
+  <div id="virtual-grid" class="grid-container" style="height: 600px; overflow-y: auto;"></div>
+
+  <script type="module">
+    import { MasonryGrid } from '../dist/index.js';
+
+    const COLORS = [
+      '#e53935', '#d81b60', '#8e24aa', '#5e35b1',
+      '#3949ab', '#1e88e5', '#039be5', '#00acc1',
+      '#00897b', '#43a047', '#7cb342', '#c0ca33',
+      '#fdd835', '#ffb300', '#fb8c00', '#f4511e',
+    ];
+
+    function randomColor() {
+      return COLORS[Math.floor(Math.random() * COLORS.length)];
+    }
+
+    function createCard(text, minH = 80, maxH = 280) {
+      const div = document.createElement('div');
+      div.className = 'card';
+      const h = Math.floor(Math.random() * (maxH - minH)) + minH;
+      div.style.height = h + 'px';
+      div.style.background = randomColor();
+      div.textContent = text;
+      return div;
+    }
+
+    // ==================== BASIC GRID ====================
+    const basicContainer = document.getElementById('basic-grid');
+    for (let i = 0; i < 20; i++) {
+      basicContainer.appendChild(createCard(`Item ${i + 1}`));
+    }
+    const basicGrid = new MasonryGrid(basicContainer, {
+      gap: 12,
+      virtualize: false,
+      columns: { type: 'auto', minColumnWidth: 200 },
+    });
+
+    // ==================== DYNAMIC GRID ====================
+    const dynamicContainer = document.getElementById('dynamic-grid');
+    for (let i = 0; i < 10; i++) {
+      dynamicContainer.appendChild(createCard(`D-${i + 1}`));
+    }
+    let dynamicCounter = 10;
+    const dynamicGrid = new MasonryGrid(dynamicContainer, {
+      gap: 12,
+      virtualize: false,
+      columns: { type: 'auto', minColumnWidth: 200 },
+    });
+
+    document.getElementById('btn-append').addEventListener('click', () => {
+      const newCards = [];
+      for (let i = 0; i < 5; i++) {
+        const card = createCard(`D-${++dynamicCounter}`);
+        dynamicContainer.appendChild(card);
+        newCards.push(card);
+      }
+      dynamicGrid.append(newCards);
+    });
+
+    document.getElementById('btn-prepend').addEventListener('click', () => {
+      const newCards = [];
+      for (let i = 0; i < 3; i++) {
+        newCards.push(createCard(`D-${++dynamicCounter}`));
+      }
+      dynamicGrid.prepend(newCards);
+    });
+
+    document.getElementById('btn-remove').addEventListener('click', () => {
+      const layout = dynamicGrid.getLayout();
+      if (layout && layout.positions.length > 0) {
+        dynamicGrid.remove(layout.positions[0].id);
+      }
+    });
+
+    document.getElementById('btn-refresh').addEventListener('click', () => {
+      dynamicGrid.refresh();
+    });
+
+    // ==================== VIRTUALIZED 10K GRID ====================
+    const TOTAL = 10000;
+    const virtualContainer = document.getElementById('virtual-grid');
+    const domCountEl = document.getElementById('dom-count');
+    const scrollPosEl = document.getElementById('scroll-pos');
+    const visRangeEl = document.getElementById('vis-range');
+
+    const virtualGrid = new MasonryGrid(virtualContainer, {
+      gap: 10,
+      virtualize: true,
+      totalItems: TOTAL,
+      columns: { type: 'auto', minColumnWidth: 180 },
+      renderItem: (index) => {
+        return createCard(`#${index + 1}`, 60, 240);
+      },
+    });
+
+    virtualGrid.on('scroll', (scrollTop, range) => {
+      domCountEl.textContent = virtualContainer.querySelectorAll('.card').length;
+      scrollPosEl.textContent = Math.round(scrollTop);
+      visRangeEl.textContent = `${range.startIndex}-${range.endIndex}`;
+    });
+
+    // Initial stats update
+    setTimeout(() => {
+      domCountEl.textContent = virtualContainer.querySelectorAll('.card').length;
+    }, 100);
+  </script>
+
+</body>
+</html>
