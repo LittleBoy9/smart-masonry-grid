@@ -1,6 +1,14 @@
 {
   "name": "smart-masonry-grid",
-  "version": "0.1.0",
+  "version": "0.2.0",
+  "homepage": "https://littleboy9.github.io/smart-masonry-grid/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LittleBoy9/smart-masonry-grid.git"
+  },
+  "bugs": {
+    "url": "https://github.com/LittleBoy9/smart-masonry-grid/issues"
+  },
   "description": "A zero-dependency, virtualized masonry grid layout library",
   "type": "module",
   "author": {

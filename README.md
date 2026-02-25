@@ -1,5 +1,9 @@
 # smart-masonry-grid
 
+[![npm version](https://img.shields.io/npm/v/smart-masonry-grid)](https://www.npmjs.com/package/smart-masonry-grid)
+[![bundle size](https://img.shields.io/bundlephobia/minzip/smart-masonry-grid)](https://bundlephobia.com/package/smart-masonry-grid)
+[![license](https://img.shields.io/npm/l/smart-masonry-grid)](https://github.com/LittleBoy9/smart-masonry-grid/blob/main/LICENSE)
+
 A zero-dependency, virtualized masonry grid layout library for vanilla JS and React.
 
 - **Zero dependencies** — uses native `ResizeObserver` and `IntersectionObserver`
@@ -8,6 +12,8 @@ A zero-dependency, virtualized masonry grid layout library for vanilla JS and Re
 - **SSR-compatible** — CSS columns fallback with hydration support
 - **TypeScript-first** — full type definitions included
 - **Dual API** — vanilla `MasonryGrid` class + React components
+
+**[Landing Page](https://littleboy9.github.io/smart-masonry-grid/)** · **[Live Demo](https://smart-masonry-grid-demo-1dkf4r5bx-iamsounak01s-projects.vercel.app/)** · **[GitHub](https://github.com/LittleBoy9/smart-masonry-grid)**
 
 ## Install
 
@@ -105,7 +111,6 @@ grid.destroy();
 
 ```js
 const grid = new MasonryGrid(container, {
-  virtualize: true,
   totalItems: 10000,
   renderItem: (index) => {
     const el = document.createElement('div');
@@ -169,4 +174,4 @@ const css = getSSRStyles();
 
 ## License
 
-[MIT](LICENSE)
+[MIT](LICENSE) — Built by [Sounak Das](https://sounakdas.in)

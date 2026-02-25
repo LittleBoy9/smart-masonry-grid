@@ -566,6 +566,107 @@ a{color:inherit;text-decoration:none}
 .code-block pre .punct{color:#52525b}
 
 /* ================================================================
+   DEMO EMBED
+   ================================================================ */
+.demo-embed{
+  padding:140px 32px 80px;
+  position:relative;
+  text-align:center;
+}
+.demo-embed-container{
+  max-width:1100px;
+  margin:0 auto;
+  position:relative;
+  border-radius:20px;
+  overflow:hidden;
+  background:rgba(255,255,255,.02);
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:0 40px 100px rgba(0,0,0,.4),0 0 80px rgba(139,92,246,.08);
+}
+.demo-embed-glow{
+  position:absolute;
+  top:-50%;left:-25%;
+  width:150%;height:200%;
+  background:radial-gradient(ellipse at 50% 0%,rgba(139,92,246,.1),transparent 60%);
+  pointer-events:none;
+  z-index:0;
+}
+.demo-embed-bar{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 16px;
+  background:rgba(255,255,255,.04);
+  border-bottom:1px solid rgba(255,255,255,.06);
+  position:relative;
+  z-index:1;
+}
+.demo-embed-dots{
+  display:flex;gap:7px;
+}
+.demo-embed-dots span{
+  width:11px;height:11px;
+  border-radius:50%;
+  display:block;
+}
+.demo-embed-url{
+  flex:1;
+  text-align:center;
+  font-size:12px;
+  font-family:'JetBrains Mono',monospace;
+  color:#52525b;
+  background:rgba(255,255,255,.03);
+  padding:5px 16px;
+  border-radius:6px;
+  border:1px solid rgba(255,255,255,.05);
+}
+.demo-embed-open{
+  color:#52525b;
+  transition:color .2s;
+  display:flex;align-items:center;
+}
+.demo-embed-open:hover{color:#c084fc}
+.demo-embed-frame{
+  position:relative;
+  z-index:1;
+  width:100%;
+  height:600px;
+  background:#0a0a0f;
+}
+.demo-embed-frame iframe{
+  width:100%;
+  height:100%;
+  border:none;
+  display:block;
+}
+.demo-embed-tabs{
+  display:flex;
+  gap:0;
+  border-top:1px solid rgba(255,255,255,.06);
+  position:relative;
+  z-index:1;
+}
+.demo-tab{
+  flex:1;
+  padding:12px 20px;
+  text-align:center;
+  font-size:13px;
+  font-weight:600;
+  color:#52525b;
+  transition:all .25s;
+  border-right:1px solid rgba(255,255,255,.04);
+}
+.demo-tab:last-child{border-right:none}
+.demo-tab:hover{
+  color:#a1a1aa;
+  background:rgba(139,92,246,.04);
+}
+.demo-tab.active{
+  color:#c084fc;
+  background:rgba(139,92,246,.06);
+}
+
+/* ================================================================
    CTA
    ================================================================ */
 .cta{
@@ -628,6 +729,8 @@ a{color:inherit;text-decoration:none}
   .stats-inner{grid-template-columns:repeat(2,1fr);gap:24px}
   .code-grid{grid-template-columns:1fr;gap:32px}
   .features-grid{grid-template-columns:1fr}
+  .demo-embed-frame{height:400px}
+  .demo-embed{padding:100px 16px 60px}
 }
 @media(max-width:480px){
   .hero-col:nth-child(3){display:none}
@@ -651,7 +754,8 @@ a{color:inherit;text-decoration:none}
   <div class="nav-links">
     <a href="#features">Features</a>
     <a href="#code">Code</a>
-    <a href="https://github.com" target="_blank">GitHub</a>
+    <a href="https://smart-masonry-grid-demo-1dkf4r5bx-iamsounak01s-projects.vercel.app/" target="_blank">Live Demo</a>
+    <a href="https://github.com/LittleBoy9/smart-masonry-grid" target="_blank">GitHub</a>
     <button class="btn-nav" onclick="copyInstall()">npm install</button>
   </div>
 </nav>
@@ -680,7 +784,7 @@ a{color:inherit;text-decoration:none}
 
   <div class="hero-actions">
     <button class="btn-primary" onclick="copyInstall()"><span>Get Started</span></button>
-    <a href="#features" class="btn-secondary">Explore features &darr;</a>
+    <a href="https://smart-masonry-grid-demo-1dkf4r5bx-iamsounak01s-projects.vercel.app/" target="_blank" class="btn-secondary">Live Demo &rarr;</a>
   </div>
 
   <div class="hero-install" onclick="copyInstall()" title="Click to copy">
@@ -845,6 +949,36 @@ a{color:inherit;text-decoration:none}
   </div>
 </section>
 
+<!-- LIVE DEMO EMBED -->
+<section class="demo-embed" id="demo">
+  <p class="section-label reveal">See It Live</p>
+  <h2 class="section-title reveal">Don't take our word for it.</h2>
+  <p class="section-sub reveal">
+    Interactive demo with real Unsplash photos. Adjust columns, gap, and animations in real-time.
+  </p>
+  <div class="demo-embed-container reveal-scale">
+    <div class="demo-embed-glow"></div>
+    <div class="demo-embed-bar">
+      <div class="demo-embed-dots">
+        <span style="background:#ef4444"></span>
+        <span style="background:#eab308"></span>
+        <span style="background:#22c55e"></span>
+      </div>
+      <div class="demo-embed-url">smart-masonry-grid-demo.vercel.app</div>
+      <a href="https://smart-masonry-grid-demo-1dkf4r5bx-iamsounak01s-projects.vercel.app/" target="_blank" class="demo-embed-open" title="Open in new tab">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+    </div>
+    <div class="demo-embed-frame">
+      <iframe src="https://smart-masonry-grid-demo-1dkf4r5bx-iamsounak01s-projects.vercel.app/" loading="lazy" title="smart-masonry-grid demo"></iframe>
+    </div>
+    <div class="demo-embed-tabs">
+      <a href="https://smart-masonry-grid-demo-1dkf4r5bx-iamsounak01s-projects.vercel.app/" target="_blank" class="demo-tab active">Masonry</a>
+      <a href="https://smart-masonry-grid-demo-1dkf4r5bx-iamsounak01s-projects.vercel.app/virtual" target="_blank" class="demo-tab">Virtual (10k items)</a>
+    </div>
+  </div>
+</section>
+
 <!-- CTA -->
 <section class="cta">
   <div class="cta-glow"></div>
@@ -861,8 +995,8 @@ a{color:inherit;text-decoration:none}
 <!-- FOOTER -->
 <footer class="footer">
   <p>
-    Built with care &mdash;
-    <a href="https://github.com" target="_blank">GitHub</a> &middot;
+    Built by <a href="https://sounakdas.in" target="_blank">Sounak Das</a> &mdash;
+    <a href="https://github.com/LittleBoy9/smart-masonry-grid" target="_blank">GitHub</a> &middot;
     <a href="https://npmjs.com/package/smart-masonry-grid" target="_blank">npm</a> &middot;
     MIT License
   </p>
